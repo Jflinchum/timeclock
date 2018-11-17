@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import './Times.css';
 
 class Times extends Component {
@@ -46,4 +47,4 @@ Times.propTypes = {
   uid: PropTypes.string
 }
 
-export default Times;
+export default withRouter(Times);

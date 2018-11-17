@@ -34,7 +34,11 @@ app.get('/all', (req, res) => {
 app.get('/authorize', (req, res) => {
   const { user } = req.query;
 
-  db.query(`SELECT * from users WHERE 'uid'='${user}'`, (err, results) => {
+  db.query(`
+    SELECT *
+    FROM users
+    WHERE uid = '${user}'
+    `, (err, results) => {
     if (err) res.send(err);
     else {
       return res.json(results);
@@ -67,7 +71,6 @@ app.get('/times', (req, res) => {
     `, (err, results) => {
     if (err) res.send(err);
     else {
-      console.log(results);
       return res.json(results);
     }
   });

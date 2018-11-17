@@ -7,7 +7,9 @@ class Home extends Component {
     super(props);
     this.state = {
       login: '',
-      register: ''
+      register: '',
+      badLogin: false,
+      badRegister: false,
     }
 
     this.handleLoginChange = this.handleLoginChange.bind(this);
@@ -22,26 +24,53 @@ class Home extends Component {
 
   handleLogin(event) {
     event.preventDefault();
-    this.props.history.push({
-      pathname: '/times',
-      state: {
-        uid: this.state.value
-      }
-    });
+    const uid = this.state.login;
+
+    fetch(`http://localhost:4000/authorize?user=${uid}`)
+      .then(response => response.json())
+      .then(response => {
+        if (response.length > 0) {
+          this.props.history.push({
+            pathname: '/times',
+            state: {
+              uid
+            }
+          });
+        } else {
+          this.setState({badLogin: true});
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   handleRegisterChange(event) {
-    this.setState({login: event.target.value});
+    this.setState({register: event.target.value});
   }
 
   handleRegister(event) {
     event.preventDefault();
-    this.props.history.push({
-      pathname: '/times',
-      state: {
-        uid: this.state.value
-      }
-    });
+    const uid = this.state.register;
+
+    fetch(`http://localhost:4000/authorize?user=${uid}`)
+      .then(response => response.json())
+      .then(response => {
+        if (response.length > 0) {
+          this.setState({badRegister: true});
+        } else {
+          fetch(`http://localhost:4000/register?user=${uid}`)
+            .then(response => response.json())
+            .then(response => {
+              this.props.history.push({
+                pathname: '/times',
+                state: {
+                  uid
+                }
+              });
+            })
+            .catch(err => console.log(err));
+        }
+      })
+      .catch(err => console.log(err));
   }
 
 
@@ -55,6 +84,11 @@ class Home extends Component {
               <input type="submit" value="Log In" id="loginButton"/>
             </div>
           </form>
+          {
+            this.state.badLogin ?
+            <p> No UID exists with that name </p>
+            : null
+          }
           <form id="registerForm" onSubmit={this.handleRegister}>
             <div>
               <label htmlFor="registerUID"> Username: </label>
