@@ -6,18 +6,21 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ''
+      login: '',
+      register: ''
     }
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLoginChange = this.handleLoginChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleRegisterChange = this.handleRegisterChange.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleLoginChange(event) {
+    this.setState({login: event.target.value});
   }
 
-  handleSubmit(event) {
+  handleLogin(event) {
     event.preventDefault();
     this.props.history.push({
       pathname: '/times',
@@ -27,16 +30,36 @@ class Home extends Component {
     });
   }
 
+  handleRegisterChange(event) {
+    this.setState({login: event.target.value});
+  }
+
+  handleRegister(event) {
+    event.preventDefault();
+    this.props.history.push({
+      pathname: '/times',
+      state: {
+        uid: this.state.value
+      }
+    });
+  }
+
+
   render () {
       return (
         <div id='container'>
-          <form id="loginForm" onSubmit={this.handleSubmit}>
+          <form id="loginForm" onSubmit={this.handleLogin}>
             <div>
-              <div>
-                <label htmlFor="uName"> Username: </label>
-                <input required type="text" id="uName" onChange={this.handleChange}/>
-              </div>
+              <label htmlFor="loginUID"> Username: </label>
+              <input required type="text" id="loginUID" onChange={this.handleLoginChange}/>
               <input type="submit" value="Log In" id="loginButton"/>
+            </div>
+          </form>
+          <form id="registerForm" onSubmit={this.handleRegister}>
+            <div>
+              <label htmlFor="registerUID"> Username: </label>
+              <input required type="text" id="registerUID" onChange={this.handleRegisterChange}/>
+              <input type="submit" value="Register" id="register"/>
             </div>
           </form>
         </div>
