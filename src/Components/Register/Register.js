@@ -23,7 +23,7 @@ class Register extends Component {
     const uid = this.state.register;
 
     // First authorize the user to make sure they don't already exist
-    fetch(`http://localhost:4000/authorize?user=${uid}`)
+    fetch(`http://localhost:4000/authorize?uid=${uid}`)
       .then(response => response.json())
       .then(response => {
         if (response.length > 0) {
@@ -31,7 +31,7 @@ class Register extends Component {
           this.setState({badRegister: true});
         } else {
           // If they don't exist, register them and call the onSubmit function
-          fetch(`http://localhost:4000/register?user=${uid}`)
+          fetch(`http://localhost:4000/register?uid=${uid}`)
             .then(response => response.json())
             .then(response => this.props.onSubmit({ uid }))
             .catch(err => console.log(err));

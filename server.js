@@ -32,12 +32,12 @@ app.get('/all', (req, res) => {
 });
 
 app.get('/authorize', (req, res) => {
-  const { user } = req.query;
+  const { uid } = req.query;
 
   db.query(`
     SELECT *
     FROM users
-    WHERE uid = '${user}'
+    WHERE uid = '${uid}'
     `, (err, results) => {
     if (err) res.send(err);
     else {
@@ -47,12 +47,12 @@ app.get('/authorize', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-  const { user } = req.query;
+  const { uid } = req.query;
 
   db.query(`
     INSERT INTO users
     (uid)
-    VALUES('${user}')
+    VALUES('${uid}')
     `, (err, results) => {
     if (err) res.send(err);
     else {
@@ -62,12 +62,13 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/times', (req, res) => {
-  const { user } = req.query;
+  const { uid } = req.query;
 
   db.query(`
     SELECT *
     FROM times
-    WHERE uid = '${user}'
+    WHERE uid = '${uid}'
+    ORDER BY time DESC
     `, (err, results) => {
     if (err) res.send(err);
     else {
@@ -76,7 +77,7 @@ app.get('/times', (req, res) => {
   });
 });
 
-app.get('/add', (req, res) => {
+app.get('/clock', (req, res) => {
   const { uid, record, start } = req.query;
   const time = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
@@ -87,8 +88,7 @@ app.get('/add', (req, res) => {
     `, (err, results) => {
     if (err) res.send(err);
     else {
-      console.log(results);
-      res.send('Added time');
+      res.send(results);
     }
   });
 });
