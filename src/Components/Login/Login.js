@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { API_URL } from '../../config';
 
 class Login extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Login extends Component {
     const uid = this.state.login;
 
     // First authorize the user id submitted
-    fetch(`http://localhost:4000/authorize?uid=${uid}`)
+    fetch(`${API_URL}authorize?uid=${uid}`)
       .then(response => response.json())
       .then(response => {
         if (response.length > 0) {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { API_URL } from '../../config';
 
 class Register extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class Register extends Component {
     }
 
     // First authorize the user to make sure they don't already exist
-    fetch(`http://localhost:4000/authorize?uid=${uid}`)
+    fetch(`${API_URL}authorize?uid=${uid}`)
       .then(response => response.json())
       .then(response => {
         if (response.length > 0) {
@@ -50,7 +51,7 @@ class Register extends Component {
           this.setState({ accountExists: true });
         } else {
           // If they don't exist, register them and call the onSubmit function
-          fetch(`http://localhost:4000/register?uid=${uid}&admin=${registerAdmin}`)
+          fetch(`${API_URL}register?uid=${uid}&admin=${registerAdmin}`)
             .then(response => response.json())
             .then(response => this.props.onSubmit({ uid, admin: this.state.registerAdmin }))
             .catch(err => console.log(err));

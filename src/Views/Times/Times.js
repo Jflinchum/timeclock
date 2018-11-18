@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import './Times.css';
 import TimesButton from '../../Components/TimesButton/TimesButton';
+import { API_URL } from '../../config';
 
 class Times extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Times extends Component {
 
   getTimes() {
     const uid = this.props.uid;
-    fetch(`http://localhost:4000/times?uid=${uid}`)
+    fetch(`${API_URL}times?uid=${uid}`)
       .then(response => response.json())
       .then(response => {
         let activeShift, activeBreak, activeLunch = false;
@@ -74,7 +75,7 @@ class Times extends Component {
       return;
     }
     // Add the user to the database
-    fetch(`http://localhost:4000/clock?uid=${uid}&record=${record}&start=${start}`)
+    fetch(`${API_URL}clock?uid=${uid}&record=${record}&start=${start}`)
       .then(response => response.json())
       .then(response => this.getTimes())
       .catch(err => console.log(err));

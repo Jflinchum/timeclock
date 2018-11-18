@@ -22,15 +22,6 @@ const app = express();
 
 app.use(cors());
 
-app.get('/all', (req, res) => {
-  db.query('SELECT * from times', (err, results) => {
-    if (err) res.send(err);
-    else {
-      return res.json(results);
-    }
-  });
-});
-
 app.get('/authorize', (req, res) => {
   const { uid } = req.query;
 
