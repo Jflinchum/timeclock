@@ -29,18 +29,20 @@ class Times extends Component {
       .then(response => response.json())
       .then(response => {
         let activeShift, activeBreak, activeLunch = false;
-        const userWork = response.find(({ record }) => {
-          return record === 'work';
-        });
-        const userBreak = response.find(({ record }) => {
-          return record === 'break';
-        });
-        const userLunch = response.find(({ record }) => {
-          return record === 'lunch';
-        });
-        userWork && userWork.start ? activeShift = true : activeShift = false;
-        userBreak && userBreak.start ? activeBreak = true : activeBreak = false;
-        userLunch && userLunch.start ? activeLunch = true : activeLunch = false;
+        if (response) {
+          const userWork = response.find(({ record }) => {
+            return record === 'work';
+          });
+          const userBreak = response.find(({ record }) => {
+            return record === 'break';
+          });
+          const userLunch = response.find(({ record }) => {
+            return record === 'lunch';
+          });
+          userWork && userWork.start ? activeShift = true : activeShift = false;
+          userBreak && userBreak.start ? activeBreak = true : activeBreak = false;
+          userLunch && userLunch.start ? activeLunch = true : activeLunch = false;
+        }
         this.setState({
           times: response,
           activeShift,
@@ -75,7 +77,7 @@ class Times extends Component {
       return;
     }
     // Add the user to the database
-    fetch(`${API_URL}clock?uid=${uid}&record=${record}&start=${start}`)
+    fetch(`${API_URL}clock?uid=${uid}&record=${record}&start=${start ? 1 : 0}`)
       .then(response => response.json())
       .then(response => this.getTimes())
       .catch(err => console.log(err));

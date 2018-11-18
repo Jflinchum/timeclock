@@ -7,14 +7,54 @@ const db = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'root',
-  database : 'timeclock'
 });
 
-// Connect
+// Create the times table
+const createTimesTable = (cb) => {
+  db.query(`CREATE TABLE timeclock.times
+    (id INT(11) NOT NULL AUTO_INCREMENT,
+    uid VARCHAR(7) NOT NULL,
+    time DATETIME NOT NULL,
+    record ENUM('work','break','lunch') NOT NULL,
+    start BOOLEAN NOT NULL,
+    PRIMARY KEY (id))
+   `, cb);
+}
+
+// Create the users table
+const createUsersTable = (cb) => {
+  db.query(`CREATE TABLE timeclock.users
+   (uid VARCHAR(7) NOT NULL,
+   admin BOOLEAN NOT NULL,
+   PRIMARY KEY (uid))
+   `, cb);
+}
+
+/**
+ * Make a connection to the sql server. It will attempt to make the
+ * timeclock database first. If it doesn't already exist, it will
+ * continue to create the times and users tables for the application.
+ * If it already exists, it will move on and won't attempt to make the tables.
+ */
 db.connect((err) => {
-  if(err){
-    throw err;
-  }
+  if (err) throw err;
+  db.query('CREATE DATABASE timeclock', (err, results) => {
+    if (err && err.code !== 'ER_DB_CREATE_EXISTS') throw err;
+
+    if (!err) {
+      console.log('Creating times table...');
+      createTimesTable((err, results) => {
+        if (err) throw err;
+        else {
+          console.log('Creating users table...')
+          createUsersTable((err, results) => {
+            if (err) throw err;
+            console.log('Created times and users tables...');
+          });
+        }
+      });
+    }
+  });
   console.log('MySql Connected...');
 });
 
@@ -31,8 +71,8 @@ app.get('/authorize', (req, res) => {
 
   db.query(`
     SELECT *
-    FROM users
-    WHERE uid = '${uid}'
+    FROM timeclock.users
+    WHERE uid = ${db.escape(uid)}
     `, (err, results) => {
     if (err) res.send(err);
     else {
@@ -50,9 +90,9 @@ app.get('/register', (req, res) => {
   const { uid, admin } = req.query;
 
   db.query(`
-    INSERT INTO users
+    INSERT INTO timeclock.users
     (uid, admin)
-    VALUES('${uid}', ${admin})
+    VALUES(${db.escape(uid)}, ${db.escape(admin)})
     `, (err, results) => {
     if (err) res.send(err);
     else {
@@ -71,8 +111,8 @@ app.get('/times', (req, res) => {
 
   db.query(`
     SELECT *
-    FROM times
-    WHERE uid = '${uid}'
+    FROM timeclock.times
+    WHERE uid = ${db.escape(uid)}
     ORDER BY time DESC
     `, (err, results) => {
     if (err) res.send(err);
@@ -94,9 +134,12 @@ app.get('/clock', (req, res) => {
   const time = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
   let query = db.query(`
-    INSERT INTO times
+    INSERT INTO timeclock.times
     (uid, time, record, start)
-    VALUES('${uid}', '${time}', '${record}', ${start})
+    VALUES(${db.escape(uid)},
+    ${db.escape(time)},
+    ${db.escape(record)},
+    ${db.escape(start)})
     `, (err, results) => {
     if (err) res.send(err);
     else {

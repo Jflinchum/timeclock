@@ -51,7 +51,7 @@ class Register extends Component {
           this.setState({ accountExists: true });
         } else {
           // If they don't exist, register them and call the onSubmit function
-          fetch(`${API_URL}register?uid=${uid}&admin=${registerAdmin}`)
+          fetch(`${API_URL}register?uid=${uid}&admin=${registerAdmin ? 1 : 0}`)
             .then(response => response.json())
             .then(response => this.props.onSubmit({ uid, admin: this.state.registerAdmin }))
             .catch(err => console.log(err));

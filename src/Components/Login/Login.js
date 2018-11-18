@@ -14,7 +14,7 @@ class Login extends Component {
   }
 
   handleLoginChange(event) {
-    this.setState({login: event.target.value});
+    this.setState({ login: event.target.value });
   }
 
   handleLogin(event) {
@@ -30,7 +30,7 @@ class Login extends Component {
           this.props.onSubmit({ uid, admin: response[0].admin });
         } else {
           // If the user id does not exist, show the bad login message
-          this.setState({badLogin: true});
+          this.setState({ badLogin: true });
         }
       })
       .catch(err => console.log(err));
