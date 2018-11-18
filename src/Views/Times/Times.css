@@ -1,4 +1,48 @@
 #container {
   display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  display: flex;
   flex-direction: row;
+  margin: auto;
+  width: 95%;
+}
+
+table {
+  width: 95%;
+  margin: auto;
+  table-layout: fixed;
+  border-spacing: 0;
+}
+
+th {
+  color: #fff;
+  background: #39444b;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+td {
+  width: 50%;
+  color: #808080;
+  font-size: 1rem;
+  word-break: break-all;
+}
+
+td, th {
+  padding: 1rem;
+}
+
+th:first-of-type {
+  border-radius: 0.5rem 0 0 0;
+}
+
+th:last-of-type {
+  border-radius: 0 0.5rem 0 0;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }

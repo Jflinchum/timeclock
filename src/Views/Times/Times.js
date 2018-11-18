@@ -50,14 +50,20 @@ class Times extends Component {
       .catch(err => console.log(err));
   };
 
+  formatDateTime({ time }) {
+    // Split timestamp into [ Y, M, D, h, m, s ]
+    const t = time.split(/[- : T Z]/);
+    // Return i.e(11:33:07 on 11/18/2018)
+    return `${t[3]}:${t[4]}:${t[5].slice(0, 2)} on ${t[1]}/${t[2]}/${t[0]}`;
+  }
+
   renderTimes({ time, record, start }, i) {
     return (
-      <div key={i}>
-        <div>{time}</div>
-        <div>{record}</div>
-        <div>{start}</div>
-      </div>
-    )
+      <tr key={i}>
+        <td>{this.formatDateTime({ time })}</td>
+        <td>{start ? `Started ${record}` : `Ended ${record}`}</td>
+      </tr>
+    );
   };
 
   add({uid, record, start}) {
@@ -78,10 +84,7 @@ class Times extends Component {
     const { times } = this.state;
     return (
       <div id="container">
-        <div id="times">
-          {times.map(this.renderTimes)}
-        </div>
-        <div id="controls">
+        <div className="controls">
           <TimesButton
             name="Clock In"
             onSubmit={() => this.add({
@@ -143,6 +146,17 @@ class Times extends Component {
             })}
             show={true}
           />
+        </div>
+        <div id="times">
+          <table>
+            <tbody>
+              <tr>
+                <th>Date</th>
+                <th>Record</th>
+              </tr>
+              {times.map(this.renderTimes)}
+            </tbody>
+          </table>
         </div>
       </div>
     )

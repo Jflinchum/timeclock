@@ -1,1 +1,22 @@
+button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  text-align: center;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+  margin: 0;
+  white-space: normal;
+  margin: 0.5rem;
+}
 
+button:hover {
+  background-color: #26a95e;
+}
+
+.errorMessage {
+  color: #c34545;
+}

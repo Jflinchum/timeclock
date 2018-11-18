@@ -7,7 +7,7 @@ class TimesButton extends Component {
     if (this.props.show) {
       return (
         <div>
-          <button onClick={this.props.onSubmit}>
+          <button className="controlButton" onClick={this.props.onSubmit}>
             {this.props.name}
           </button>
         </div>

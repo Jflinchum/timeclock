@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './Login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -45,12 +44,12 @@ class Login extends Component {
         <div>
           <label htmlFor="loginUID"> Username: </label>
           <input required type="text" id="loginUID" onChange={this.handleLoginChange}/>
-          <input type="submit" value="Log In" id="loginButton"/>
+          <button type="submit"> Log In </button>
         </div>
       </form>
       {
         this.state.badLogin ?
-        <p> No UID exists with that name </p>
+        <p className="errorMessage"> No UID exists with that name </p>
         : null
       }
       </div>

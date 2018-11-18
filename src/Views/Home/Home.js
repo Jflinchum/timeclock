@@ -24,9 +24,13 @@ class Home extends Component {
 
   render () {
       return (
-        <div>
-          <Login onSubmit={this.redirect}/>
-          <Register onSubmit={this.redirect}/>
+        <div className="homeContainer">
+          <div className="loginContainer">
+            <Login onSubmit={this.redirect}/>
+          </div>
+          <div className="registerContainer">
+            <Register onSubmit={this.redirect}/>
+          </div>
         </div>
       )
    }
