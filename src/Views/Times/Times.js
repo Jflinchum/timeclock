@@ -77,62 +77,73 @@ class Times extends Component {
   render() {
     const { times } = this.state;
     return (
-      <div>
-        {times.map(this.renderTimes)}
-        <TimesButton
-          name="Clock In"
-          onSubmit={() => this.add({
-            uid: this.props.uid,
-            record: 'work',
-            start: 1
-          })}
-          show={!this.state.activeShift}
-        />
-        <TimesButton
-          name="Clock Out"
-          onSubmit={() => this.add({
-            uid: this.props.uid,
-            record: 'work',
-            start: 0
-          })}
-          show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
-        />
-        <TimesButton
-          name="Start Lunch"
-          onSubmit={() => this.add({
-            uid: this.props.uid,
-            record: 'lunch',
-            start: 1
-          })}
-          show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
-        />
-        <TimesButton
-          name="End Lunch"
-          onSubmit={() => this.add({
-            uid: this.props.uid,
-            record: 'lunch',
-            start: 0
-          })}
-          show={this.state.activeShift && this.state.activeLunch && !this.state.activeBreak}
-        />
-        <TimesButton
-          name="Start Break"
-          onSubmit={() => this.add({
-            uid: this.props.uid,
-            record: 'break',
-            start: 1
-          })}
-          show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
-        />
-        <TimesButton
-          name="End Break"
-          onSubmit={() => this.add({
-            uid: this.props.uid,
-            record: 'break',
-            start: 0
-          })}
-          show={this.state.activeShift && !this.state.activeLunch && this.state.activeBreak}
-        />
+      <div id="container">
+        <div id="times">
+          {times.map(this.renderTimes)}
+        </div>
+        <div id="controls">
+          <TimesButton
+            name="Clock In"
+            onSubmit={() => this.add({
+              uid: this.props.uid,
+              record: 'work',
+              start: 1
+            })}
+            show={!this.state.activeShift}
+          />
+          <TimesButton
+            name="Clock Out"
+            onSubmit={() => this.add({
+              uid: this.props.uid,
+              record: 'work',
+              start: 0
+            })}
+            show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
+          />
+          <TimesButton
+            name="Start Lunch"
+            onSubmit={() => this.add({
+              uid: this.props.uid,
+              record: 'lunch',
+              start: 1
+            })}
+            show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
+          />
+          <TimesButton
+            name="End Lunch"
+            onSubmit={() => this.add({
+              uid: this.props.uid,
+              record: 'lunch',
+              start: 0
+            })}
+            show={this.state.activeShift && this.state.activeLunch && !this.state.activeBreak}
+          />
+          <TimesButton
+            name="Start Break"
+            onSubmit={() => this.add({
+              uid: this.props.uid,
+              record: 'break',
+              start: 1
+            })}
+            show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
+          />
+          <TimesButton
+            name="End Break"
+            onSubmit={() => this.add({
+              uid: this.props.uid,
+              record: 'break',
+              start: 0
+            })}
+            show={this.state.activeShift && !this.state.activeLunch && this.state.activeBreak}
+          />
+          <TimesButton
+            name="Log Out"
+            onSubmit={() => this.props.history.push({
+              pathname: '/',
+            })}
+            show={true}
+          />
+        </div>
       </div>
     )
   }
