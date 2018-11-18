@@ -19,9 +19,13 @@ db.connect((err) => {
 });
 
 const app = express();
-
 app.use(cors());
 
+/**
+ * authorize
+ * @param {VARCHAR(7)} uid
+ * returns [{uid, admin}]
+ */
 app.get('/authorize', (req, res) => {
   const { uid } = req.query;
 
@@ -37,6 +41,11 @@ app.get('/authorize', (req, res) => {
   });
 });
 
+/**
+ * register
+ * @param {VARCHAR(7)} uid
+ * @param {BOOLEAN} admin
+ */
 app.get('/register', (req, res) => {
   const { uid, admin } = req.query;
 
@@ -52,6 +61,11 @@ app.get('/register', (req, res) => {
   });
 });
 
+/**
+ * register
+ * @param {VARCHAR(7)} uid
+ * returns [{id, uid, time, record, start}]
+ */
 app.get('/times', (req, res) => {
   const { uid } = req.query;
 
@@ -68,6 +82,13 @@ app.get('/times', (req, res) => {
   });
 });
 
+/**
+ * register
+ * @param {VARCHAR(7)} uid
+ * @param {DATETIME} time
+ * @param {ENUM('work','break','lunch')} record
+ * @param {BOOLEAN} start
+ */
 app.get('/clock', (req, res) => {
   const { uid, record, start } = req.query;
   const time = new Date().toISOString().slice(0, 19).replace('T', ' ');
