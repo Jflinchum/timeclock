@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import './Times.css';
-import TimesButton from '../../Components/TimesButton/TimesButton';
+import SuccessButton from '../../Components/SuccessButton/SuccessButton';
 import { API_URL } from '../../config';
 
 class Times extends Component {
@@ -24,8 +24,8 @@ class Times extends Component {
   }
 
   getTimes() {
-    const uid = this.props.uid;
-    fetch(`${API_URL}times?uid=${uid}`)
+    const searchUID = this.props.searchUID;
+    fetch(`${API_URL}times?uid=${searchUID}`)
       .then(response => response.json())
       .then(response => {
         let activeShift, activeBreak, activeLunch = false;
@@ -88,7 +88,7 @@ class Times extends Component {
     return (
       <div id="container">
         <div className="controls">
-          <TimesButton
+          <SuccessButton
             name="Clock In"
             onSubmit={() => this.add({
               uid: this.props.uid,
@@ -97,7 +97,7 @@ class Times extends Component {
             })}
             show={((!this.state.activeShift) || this.props.admin)}
           />
-          <TimesButton
+          <SuccessButton
             name="Clock Out"
             onSubmit={() => this.add({
               uid: this.props.uid,
@@ -109,7 +109,7 @@ class Times extends Component {
               && !this.state.activeBreak)
               || this.props.admin)}
           />
-          <TimesButton
+          <SuccessButton
             name="Start Lunch"
             onSubmit={() => this.add({
               uid: this.props.uid,
@@ -121,7 +121,7 @@ class Times extends Component {
               && !this.state.activeBreak)
               || this.props.admin)}
           />
-          <TimesButton
+          <SuccessButton
             name="End Lunch"
             onSubmit={() => this.add({
               uid: this.props.uid,
@@ -133,7 +133,7 @@ class Times extends Component {
               && !this.state.activeBreak)
               || this.props.admin)}
           />
-          <TimesButton
+          <SuccessButton
             name="Start Break"
             onSubmit={() => this.add({
               uid: this.props.uid,
@@ -145,7 +145,7 @@ class Times extends Component {
               && !this.state.activeBreak)
               || this.props.admin)}
           />
-          <TimesButton
+          <SuccessButton
             name="End Break"
             onSubmit={() => this.add({
               uid: this.props.uid,
@@ -157,7 +157,7 @@ class Times extends Component {
               && this.state.activeBreak)
              || this.props.admin)}
           />
-          <TimesButton
+          <SuccessButton
             name="Log Out"
             onSubmit={() => this.props.history.push({
               pathname: '/',
@@ -182,7 +182,12 @@ class Times extends Component {
 }
 
 Times.propTypes = {
-  uid: PropTypes.string
+  uid: PropTypes.string,
+  searchUID: PropTypes.string,
+  admin: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+  ])
 }
 
 export default withRouter(Times);

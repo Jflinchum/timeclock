@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class TimesButton extends Component {
+class SuccessButton extends Component {
 
   render() {
     if (this.props.show) {
@@ -18,7 +18,7 @@ class TimesButton extends Component {
   }
 }
 
-TimesButton.propTypes = {
+SuccessButton.propTypes = {
   name: PropTypes.string,
   onSubmit: PropTypes.func,
   show: PropTypes.oneOfType([
@@ -27,4 +27,4 @@ TimesButton.propTypes = {
   ])
 }
 
-export default TimesButton;
+export default SuccessButton;

@@ -19,6 +19,7 @@ class App extends Component {
             <div className="App">
               <Times
                 uid={props.location.state.uid}
+                searchUID={props.location.state.searchUID}
                 admin={props.location.state.admin}
               />
             </div>
