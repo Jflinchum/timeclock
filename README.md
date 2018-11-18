@@ -9,7 +9,7 @@ A timeclock application with a React front-end and a Node.js back-end.
 * When registering, users can register as an admin which can do the above operations at any point in time.
 
 ## Dependencies
-* Running this application requires a MySQL server running locally on port 3306 with a username and password both set as 'root'.
+* Running this application requires a MySQL server running locally on port 3306 with a username and password both set as `root`.
   * Note the port, username, and password can be changed in the `serverConfig.js` file.
   * You can use any MySQL server, however I built the program using [MAMP](https://www.mamp.info/en/), which out of the box has those default configurations.
 * Node version > 8.0
