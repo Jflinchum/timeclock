@@ -17,7 +17,7 @@ class App extends Component {
           )}/>
           <Route path='/times' render={(props) => (
             <div className="App">
-              <Times uid={props.location.state.uid}/>
+              <Times uid={props.location.state.uid} admin={props.location.state.admin}/>
             </div>
           )}/>
         </div>

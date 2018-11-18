@@ -8,7 +8,6 @@ class Login extends Component {
       login: '',
       badLogin: false,
     }
-
     this.handleLoginChange = this.handleLoginChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
@@ -27,7 +26,7 @@ class Login extends Component {
       .then(response => {
         if (response.length > 0) {
           // Call the onSubmit function with the user id
-          this.props.onSubmit({ uid });
+          this.props.onSubmit({ uid, admin: response[0].admin });
         } else {
           // If the user id does not exist, show the bad login message
           this.setState({badLogin: true});
@@ -39,11 +38,13 @@ class Login extends Component {
   render() {
     return (
       <div>
-      <p> Login: </p>
+      <p className="formTitle"> Login: </p>
       <form id="loginForm" onSubmit={this.handleLogin}>
-        <div>
+        <div className="formElementContainer">
           <label htmlFor="loginUID"> Username: </label>
           <input required type="text" id="loginUID" onChange={this.handleLoginChange}/>
+        </div>
+        <div className="formElementContainer">
           <button type="submit"> Log In </button>
         </div>
       </form>

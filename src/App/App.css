@@ -10,7 +10,6 @@ button {
   font-size: 1rem;
   margin: 0;
   white-space: normal;
-  margin: 0.5rem;
 }
 
 button:hover {
@@ -19,4 +18,12 @@ button:hover {
 
 .errorMessage {
   color: #c34545;
+}
+
+.formTitle {
+  text-decoration: underline;
+}
+
+.formElementContainer {
+  margin: 0.5rem;
 }

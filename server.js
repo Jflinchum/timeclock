@@ -47,12 +47,12 @@ app.get('/authorize', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-  const { uid } = req.query;
+  const { uid, admin } = req.query;
 
   db.query(`
     INSERT INTO users
-    (uid)
-    VALUES('${uid}')
+    (uid, admin)
+    VALUES('${uid}', ${admin})
     `, (err, results) => {
     if (err) res.send(err);
     else {

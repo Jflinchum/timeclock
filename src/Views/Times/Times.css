@@ -10,6 +10,10 @@
   width: 95%;
 }
 
+.controls div {
+  margin: 0.5rem;
+}
+
 table {
   width: 95%;
   margin: auto;

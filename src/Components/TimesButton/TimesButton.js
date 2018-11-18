@@ -21,7 +21,10 @@ class TimesButton extends Component {
 TimesButton.propTypes = {
   name: PropTypes.string,
   onSubmit: PropTypes.func,
-  show: PropTypes.bool
+  show: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+  ])
 }
 
 export default TimesButton;

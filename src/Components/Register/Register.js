@@ -6,22 +6,37 @@ class Register extends Component {
     super(props);
     this.state = {
       register: '',
+      registerAdmin: false,
       accountExists: false,
       badRegister: false,
     }
 
-    this.handleRegisterChange = this.handleRegisterChange.bind(this);
+    this.handleUIDChange = this.handleUIDChange.bind(this);
+    this.handleAdminChange = this.handleAdminChange.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
   }
 
-  handleRegisterChange(event) {
+  handleUIDChange(event) {
     this.setState({register: event.target.value});
+  }
+
+  handleAdminChange(event) {
+    this.setState({registerAdmin: event.target.checked});
+  }
+
+  hasNumber(myString) {
+    return /\d/.test(myString);
+  }
+
+  hasCharacter(myString) {
+    return /[A-Za-z]/.test(myString);
   }
 
   handleRegister(event) {
     event.preventDefault();
     const uid = this.state.register;
-    if (uid.length !== 7) {
+    const registerAdmin = this.state.registerAdmin;
+    if (uid.length !== 7 || this.hasNumber(uid.slice(0, 3)) || this.hasCharacter(uid.slice(3, 8))) {
       this.setState({ badRegister: true });
       return;
     }
@@ -35,9 +50,9 @@ class Register extends Component {
           this.setState({ accountExists: true });
         } else {
           // If they don't exist, register them and call the onSubmit function
-          fetch(`http://localhost:4000/register?uid=${uid}`)
+          fetch(`http://localhost:4000/register?uid=${uid}&admin=${registerAdmin}`)
             .then(response => response.json())
-            .then(response => this.props.onSubmit({ uid }))
+            .then(response => this.props.onSubmit({ uid, admin: this.state.registerAdmin }))
             .catch(err => console.log(err));
         }
       })
@@ -47,11 +62,17 @@ class Register extends Component {
   render() {
     return (
       <div>
-        <p> Register: </p>
+        <p className="formTitle"> Register: </p>
         <form id="registerForm" onSubmit={this.handleRegister}>
-          <div>
+          <div className="formElementContainer">
             <label htmlFor="registerUID"> Username: </label>
-            <input required type="text" id="registerUID" onChange={this.handleRegisterChange}/>
+            <input required type="text" id="registerUID" onChange={this.handleUIDChange}/>
+          </div>
+          <div className="formElementContainer">
+            <label htmlFor="registerAdmin"> Admin? </label>
+            <input type="checkbox" id="registerAdmin" onChange={this.handleAdminChange}/>
+          </div>
+          <div className="formElementContainer">
             <button type="submit">Register</button>
           </div>
         </form>
@@ -62,7 +83,7 @@ class Register extends Component {
         }
         {
           this.state.badRegister ?
-          <p className="errorMessage"> UID must be seven characters long </p>
+          <p className="errorMessage"> UID must be seven characters long and have the format aaa0000 </p>
           : null
         }
       </div>

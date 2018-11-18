@@ -92,7 +92,7 @@ class Times extends Component {
               record: 'work',
               start: 1
             })}
-            show={!this.state.activeShift}
+            show={((!this.state.activeShift) || this.props.admin)}
           />
           <TimesButton
             name="Clock Out"
@@ -101,7 +101,10 @@ class Times extends Component {
               record: 'work',
               start: 0
             })}
-            show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
+            show={((this.state.activeShift
+              && !this.state.activeLunch
+              && !this.state.activeBreak)
+              || this.props.admin)}
           />
           <TimesButton
             name="Start Lunch"
@@ -110,7 +113,10 @@ class Times extends Component {
               record: 'lunch',
               start: 1
             })}
-            show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
+            show={((this.state.activeShift
+              && !this.state.activeLunch
+              && !this.state.activeBreak)
+              || this.props.admin)}
           />
           <TimesButton
             name="End Lunch"
@@ -119,7 +125,10 @@ class Times extends Component {
               record: 'lunch',
               start: 0
             })}
-            show={this.state.activeShift && this.state.activeLunch && !this.state.activeBreak}
+            show={((this.state.activeShift
+              && this.state.activeLunch
+              && !this.state.activeBreak)
+              || this.props.admin)}
           />
           <TimesButton
             name="Start Break"
@@ -128,7 +137,10 @@ class Times extends Component {
               record: 'break',
               start: 1
             })}
-            show={this.state.activeShift && !this.state.activeLunch && !this.state.activeBreak}
+            show={((this.state.activeShift
+              && !this.state.activeLunch
+              && !this.state.activeBreak)
+              || this.props.admin)}
           />
           <TimesButton
             name="End Break"
@@ -137,7 +149,10 @@ class Times extends Component {
               record: 'break',
               start: 0
             })}
-            show={this.state.activeShift && !this.state.activeLunch && this.state.activeBreak}
+            show={((this.state.activeShift
+              && !this.state.activeLunch
+              && this.state.activeBreak)
+             || this.props.admin)}
           />
           <TimesButton
             name="Log Out"

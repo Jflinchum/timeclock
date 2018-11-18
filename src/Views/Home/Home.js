@@ -12,12 +12,13 @@ class Home extends Component {
   }
 
   redirect(params) {
-    const { uid } = params;
+    const { uid, admin } = params;
 
     this.props.history.push({
       pathname: '/times',
       state: {
-        uid
+        uid,
+        admin
       }
     });
   }
