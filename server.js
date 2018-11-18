@@ -1,12 +1,14 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
+const { dbHost, dbUser, dbPass, dbPort, serverPort } = require('./serverConfig');
 
 // Create connection
 const db = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'root',
+  host: dbHost,
+  user: dbUser,
+  password: dbPass,
+  port: dbPort,
 });
 
 // Create the times table
@@ -149,6 +151,6 @@ app.get('/clock', (req, res) => {
 });
 
 
-app.listen('4000', () => {
-  console.log('Server started on port 4000');
+app.listen(serverPort, () => {
+  console.log(`Server started on port ${serverPort}`);
 });
