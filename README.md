@@ -7,6 +7,7 @@ A timeclock application with a React front-end and a Node.js back-end.
 * When logging in, the user will see their various shift modifications and can clock in, clock out, start lunch, end lunch, start a break, end a break, or logout.
   * User's cannot start multiple shifts, end a shift during their lunch or break, or start their lunch or break when they are not clocked in.
 * When registering, users can register as an admin which can do the above operations at any point in time.
+* Admins can filter data based on uid and date
 
 ## Dependencies
 * Running this application requires a MySQL server running locally on port 3306 with a username and password both set as `root`.
