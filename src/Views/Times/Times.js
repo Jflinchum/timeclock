@@ -28,8 +28,8 @@ class Times extends Component {
   }
 
   getTimes() {
-    const searchUID = this.state.searchUID;
-    fetch(`${API_URL}times?uid=${searchUID}`)
+    let { searchUID, searchDate } = this.state;
+    fetch(`${API_URL}times?uid=${searchUID}${searchDate ? `&date=${searchDate}` : ''}`)
       .then(response => response.json())
       .then(response => {
         let activeShift, activeBreak, activeLunch = false;
@@ -58,10 +58,8 @@ class Times extends Component {
   };
 
   formatDateTime({ time }) {
-    // Split timestamp into [ Y, M, D, h, m, s ]
-    const t = time.split(/[- : T Z]/);
-    // Return i.e(11:33:07 on 11/18/2018)
-    return `${t[3]}:${t[4]}:${t[5].slice(0, 2)} on ${t[1]}/${t[2]}/${t[0]}`;
+    const date = new Date(time);
+    return date.toLocaleString()
   }
 
   renderTimes({ time, record, start }, i) {
@@ -165,8 +163,8 @@ class Times extends Component {
       return (
         <div className="controls">
           <AdminFilters
-            onSubmit={({ uid }) => {
-            this.setState({ searchUID: uid }, () => { this.getTimes(); });
+            onSubmit={({ uid, date }) => {
+            this.setState({ searchUID: uid, searchDate: date }, () => { this.getTimes(); });
           }}
           />
         </div>

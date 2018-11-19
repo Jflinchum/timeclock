@@ -10,6 +10,7 @@ class AdminFilters extends Component {
       badUID: false,
     }
     this.handleUIDChange = this.handleUIDChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -17,9 +18,13 @@ class AdminFilters extends Component {
     this.setState({ uid: event.target.value });
   }
 
+  handleDateChange(event) {
+    this.setState({ date: event.target.value });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    const { uid } = this.state;
+    const { uid, date } = this.state;
 
     // First authorize the user id submitted
     fetch(`${API_URL}authorize?uid=${uid}`)
@@ -27,7 +32,7 @@ class AdminFilters extends Component {
       .then(response => {
         if (response.length > 0) {
           // Call the onSubmit function with the user id
-          this.props.onSubmit({ uid });
+          this.props.onSubmit({ uid, date });
         } else {
           // If the user id does not exist, show the bad login message
           this.setState({ badUID: true });
@@ -42,8 +47,12 @@ class AdminFilters extends Component {
         <p className="formTitle"> Admin Filters: </p>
         <form id="registerForm" onSubmit={this.handleSubmit}>
           <div className="formElementContainer">
-            <label htmlFor="registerUID"> Username: </label>
-            <input required type="text" id="registerUID" onChange={this.handleUIDChange}/>
+            <label htmlFor="filterUID"> Username: </label>
+            <input type="text" id="filterUID" onChange={this.handleUIDChange}/>
+          </div>
+          <div className="formElementContainer">
+            <label htmlFor="filterDate"> Date: </label>
+            <input type="date" id="filterDate" onChange={this.handleDateChange}/>
           </div>
           <div className="formElementContainer">
             <button type="submit">Filter</button>

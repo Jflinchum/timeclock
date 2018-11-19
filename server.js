@@ -42,7 +42,6 @@ db.connect((err) => {
   if (err) throw err;
   db.query('CREATE DATABASE timeclock', (err, results) => {
     if (err && err.code !== 'ER_DB_CREATE_EXISTS') throw err;
-
     if (!err) {
       console.log('Creating times table...');
       createTimesTable((err, results) => {
@@ -106,18 +105,28 @@ app.get('/register', (req, res) => {
 /**
  * register
  * @param {VARCHAR(7)} uid
+ * @param {DATE} date
  * returns [{id, uid, time, record, start}]
  */
 app.get('/times', (req, res) => {
-  const { uid } = req.query;
+  const { uid, date } = req.query;
 
+  let uidQry, dateQry = '';
+  if (uid) {
+      uidQry = `uid = ${db.escape(uid)}`;
+  }
+  if (date) {
+    dateQry = `time LIKE ${db.escape(`%${date}%`)}`;
+  }
+
+  let whereQry = `WHERE ${uidQry} ${date ? 'AND' : ''} ${dateQry}`;
   db.query(`
     SELECT *
     FROM timeclock.times
-    WHERE uid = ${db.escape(uid)}
+    ${whereQry}
     ORDER BY time DESC
     `, (err, results) => {
-    if (err) res.send(err);
+    if (err) console.log(err);
     else {
       return res.json(results);
     }
@@ -133,7 +142,9 @@ app.get('/times', (req, res) => {
  */
 app.get('/clock', (req, res) => {
   const { uid, record, start } = req.query;
-  const time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  // Get the timezone offset and convert it to local time
+  const timezoneOffset = (new Date()).getTimezoneOffset() * 60000;
+  const time = new Date(Date.now() - timezoneOffset).toISOString().slice(0, 19).replace('T', ' ');
 
   let query = db.query(`
     INSERT INTO timeclock.times
