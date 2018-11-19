@@ -2,24 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { API_URL } from '../../config';
 
-class Login extends Component {
+class AdminFilters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      login: '',
-      badLogin: false,
+      uid: '',
+      badUID: false,
     }
-    this.handleLoginChange = this.handleLoginChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+    this.handleUIDChange = this.handleUIDChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleLoginChange(event) {
-    this.setState({ login: event.target.value });
+  handleUIDChange(event) {
+    this.setState({ uid: event.target.value });
   }
 
-  handleLogin(event) {
+  handleSubmit(event) {
     event.preventDefault();
-    const uid = this.state.login;
+    const { uid } = this.state;
 
     // First authorize the user id submitted
     fetch(`${API_URL}authorize?uid=${uid}`)
@@ -27,10 +27,10 @@ class Login extends Component {
       .then(response => {
         if (response.length > 0) {
           // Call the onSubmit function with the user id
-          this.props.onSubmit({ uid, admin: response[0].admin });
+          this.props.onSubmit({ uid });
         } else {
           // If the user id does not exist, show the bad login message
-          this.setState({ badLogin: true });
+          this.setState({ badUID: true });
         }
       })
       .catch(err => console.log(err));
@@ -39,18 +39,18 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <p className="formTitle"> Login: </p>
-        <form id="loginForm" onSubmit={this.handleLogin}>
+        <p className="formTitle"> Admin Filters: </p>
+        <form id="registerForm" onSubmit={this.handleSubmit}>
           <div className="formElementContainer">
-            <label htmlFor="loginUID"> Username: </label>
-            <input required type="text" id="loginUID" onChange={this.handleLoginChange}/>
+            <label htmlFor="registerUID"> Username: </label>
+            <input required type="text" id="registerUID" onChange={this.handleUIDChange}/>
           </div>
           <div className="formElementContainer">
-            <button type="submit"> Log In </button>
+            <button type="submit">Filter</button>
           </div>
         </form>
         {
-          this.state.badLogin ?
+          this.state.badUID ?
           <p className="errorMessage"> No UID exists with that name </p>
           : null
         }
@@ -59,8 +59,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+AdminFilters.propTypes = {
   onSubmit: PropTypes.func
 }
 
-export default Login;
+export default AdminFilters;

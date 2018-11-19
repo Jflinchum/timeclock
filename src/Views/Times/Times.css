@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
+#times {
+  width: 95%;
+  margin: auto;
+}
+
 .controls {
   display: flex;
   flex-direction: row;
@@ -15,8 +20,7 @@
 }
 
 table {
-  width: 95%;
-  margin: auto;
+  width: 100%;
   table-layout: fixed;
   border-spacing: 0;
 }

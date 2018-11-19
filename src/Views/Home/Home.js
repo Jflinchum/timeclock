@@ -18,7 +18,6 @@ class Home extends Component {
       pathname: '/times',
       state: {
         uid,
-        searchUID: uid,
         admin
       }
     });
