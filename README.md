@@ -18,6 +18,6 @@ A timeclock application with a React front-end and a Node.js back-end.
 ## How To Run
 * First install node dependencies with `$ npm install`
 * Run the back-end server with `$ npm run start-server`
- * The back-end api will be run on `localhost:4000`
+  * The back-end api will be run on `localhost:4000`
 * Run the front-end with `$ npm start`
- * The front-end server will be run on `localhost:3000`
+  * The front-end server will be run on `localhost:3000`
