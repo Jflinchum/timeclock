@@ -27,6 +27,10 @@ class Times extends Component {
     this.getTimes();
   }
 
+  /**
+   * Fetch the times for a user and date.
+   * Sets activeShift, activeBreak, activeLunch state based on data received
+   */
   getTimes() {
     let { searchUID, searchDate } = this.state;
     fetch(`${API_URL}times?uid=${searchUID}${searchDate ? `&date=${searchDate}` : ''}`)
@@ -57,11 +61,17 @@ class Times extends Component {
       .catch(err => console.log(err));
   };
 
+  /**
+   * Convert the time received to local time
+   */
   formatDateTime({ time }) {
     const date = new Date(time);
     return date.toLocaleString()
   }
 
+  /**
+   * Render each row of the users shift data
+   */
   renderTimes({ time, record, start }, i) {
     return (
       <tr key={i}>
@@ -71,6 +81,11 @@ class Times extends Component {
     );
   };
 
+  /**
+   * Render the control panel for users and admins. Only show it if you are
+   * viewing your own time sheet. Show buttons based on current state of
+   * activeShift, activeLunch, and activeBreak
+   */
   renderControls() {
     if (this.props.uid === this.state.searchUID) {
       return (
@@ -158,6 +173,9 @@ class Times extends Component {
     }
   }
 
+  /**
+   * Render the admin filters based on whether or not user is admin
+   */
   renderAdminFilters() {
     if (this.props.admin) {
       return (
@@ -174,6 +192,9 @@ class Times extends Component {
     }
   }
 
+  /**
+   * Add a record to the database and re-render time sheet
+   */
   add({uid, record, start}) {
     // Sanity check variables
     if (typeof uid === 'undefined' ||

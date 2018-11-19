@@ -11,6 +11,9 @@ class Home extends Component {
     this.redirect = this.redirect.bind(this);
   }
 
+  /**
+   * Redirect to the times view
+   */
   redirect(params) {
     const { uid, admin } = params;
 
